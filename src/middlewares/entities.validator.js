@@ -1,23 +1,17 @@
 const { body, param } = require("express-validator");
 
-const entityPostValidation = () => {
-  return [
-    body("name").notEmpty().trim(),
-    body("fields_names").isArray().notEmpty(),
-    body("fields_types").isArray().notEmpty(),
-  ];
-};
+const entityPostValidation = () => [
+  body("name").notEmpty().trim(),
+  body("fields_names").isArray().notEmpty(),
+  body("fields_types").isArray().notEmpty(),
+];
 
-const getEntityByNameValidation = () => {
-  return [param("name").trim().notEmpty()];
-};
+const getEntityByNameValidation = () => [param("name").trim().notEmpty()];
 
-const validateParamNotEmpty = () => {
-  return [param("name").trim().notEmpty()];
-};
+const validateParamNotEmpty = () => [param("name").trim().notEmpty()];
 
 module.exports = {
   entityPostValidation,
   getEntityByNameValidation,
-  validateParamNotEmpty
+  validateParamNotEmpty,
 };

@@ -8,12 +8,31 @@ const {
   deleteInstanceByName,
 } = require("../controllers/instances.controller");
 
+const {
+  getInstancesValidation,
+  instancePostValidation,
+  getInstanceByNameValidation,
+  nameInBodyValidation,
+} = require("../middlewares/instances.validator");
+
 const instancesRouter = Router();
 
-instancesRouter.get("/:tableName", getInstances);
-instancesRouter.post("/:tableName", createInstance);
-instancesRouter.get("/:tableName/:name", getInstanceByName);
-instancesRouter.put("/:name", updateInstanceByName);
-instancesRouter.delete("/:name", deleteInstanceByName);
+instancesRouter.get("/:tableName", getInstancesValidation(), getInstances);
+instancesRouter.post("/:tableName", instancePostValidation(), createInstance);
+instancesRouter.get(
+  "/:tableName/:name",
+  getInstanceByNameValidation(),
+  getInstanceByName
+);
+instancesRouter.put(
+  "/:tableName",
+  nameInBodyValidation(),
+  updateInstanceByName
+);
+instancesRouter.delete(
+  "/:tableName",
+  nameInBodyValidation(),
+  deleteInstanceByName
+);
 
 module.exports = instancesRouter;
