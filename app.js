@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 const entitiesRouter = require("./src/routes/entities.router");
+const instancesRouter = require("./src/routes/instances.router");
 
 var app = express();
 
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/entities", entitiesRouter);
+app.use("/api/instances", instancesRouter);
 
 app.use(function (req, res, next) {
   next(createError(404));
