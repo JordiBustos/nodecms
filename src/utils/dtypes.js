@@ -6,7 +6,7 @@ const generateAttributtes = (fieldsNames, fieldsTypes) => {
     VARCHAR: DataTypes.STRING.types.postgres,
     TEXT: DataTypes.TEXT.types.postgres,
     DATE: DataTypes.DATE.types.postgres,
-    INT: DataTypes.INT.types.postgres,
+    INT: DataTypes.INTEGER.types.postgres,
   };
 
   if (fieldsNames.some((name) => typeof name !== "string")) return null;

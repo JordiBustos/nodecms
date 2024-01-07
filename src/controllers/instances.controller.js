@@ -1,14 +1,15 @@
-const Instances = require("../models/instances.model");
+// const Instances = require("../models/instances.model");
 const db = require("../db");
 
 const getInstances = async (req, res) => {
-  const tableName = req.body.tableName;
   try {
-    const rowsOfTable = await db.model(tableName).findAll();
-    res.status(200).send({
-      msg: `"${tableName}" query successful`,
-      rows: rowsOfTable,
-    });
+    const dynamicModel = db.model(req.params.tableName);
+    const result = await dynamicModel.findAll();
+    if (result.length === 0) {
+      res.send({ msg: "Table is empty" });
+    } else {
+      res.send(result);
+    }
   } catch (err) {
     res.status(500).send({
       msg: "Something went wrong",
@@ -18,9 +19,16 @@ const getInstances = async (req, res) => {
 };
 
 const createInstance = async (req, res) => {
-  const tableName = req.body.tableName;
+  const tableName = req.params.tableName;
+  if (tableName === "Entities")
+    res.status(400).send({
+      msg: "Entities cannot be created through this endpoint",
+      err: "Invalid endpoint",
+    });
   try {
-    const newRow = await db.model(tableName).create(req.body);
+    const dynamicModel = db.model(tableName);
+    const newRow = await dynamicModel.create(req.body);
+    await db.sync({ alter: true });
     res.status(200).send({
       msg: "New instance created succesfully",
       instance: newRow,
@@ -33,7 +41,29 @@ const createInstance = async (req, res) => {
   }
 };
 
-const getInstanceByName = async (req, res) => {};
+const getInstanceByName = async (req, res) => {
+  const tableName = req.params.tableName;
+  try {
+    const dynamicModel = db.model(tableName);
+    const row = await dynamicModel.findOne({
+      where: {
+        name: req.params.name,
+      },
+    });
+    if (!row) {
+      return res.status(404).send({
+        msg: "Entity not found",
+        err: "Entity does not exist in entities table",
+      });
+    }
+    res.send(row);
+  } catch (err) {
+    res.status(500).send({
+      msg: "Instance not found",
+      err: err,
+    });
+  }
+};
 
 /*
   TODO  Dinamically add fields into the "name" table
@@ -46,6 +76,6 @@ module.exports = {
   createInstance,
   getInstances,
   getInstanceByName,
-  updateIstanceByName,
-  deleteIstanceByName,
+  updateInstanceByName,
+  deleteInstanceByName,
 };

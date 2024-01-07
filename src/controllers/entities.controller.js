@@ -5,7 +5,11 @@ const db = require("../db");
 const getEntities = async (req, res) => {
   try {
     const entities = await Entities.findAll();
-    res.send(entities);
+    if (entities.length === 0) {
+      res.send({ msg: "Table is empty" });
+    } else {
+      res.send(entities);
+    }
   } catch (err) {
     res.status(500).send({
       msg: "Something went wrong while fetching all entities",
@@ -26,13 +30,14 @@ const createEntity = async (req, res) => {
         msg: "fields_names and fields_type should be an array of strings",
         err: "Invalid datatypes provided in fields_names and fields_types",
       });
-    const _ = db.define(req.body.name, attr, { freezeTableName: true });
-    db.sync();
+    const model = db.define(req.body.name, attr, { freezeTableName: true });
+    await db.sync({alter: true});
     res.status(200).send({
       msg: "Entity created succesfully",
       entity: entity,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).send({
       msg: "Something went wrong while creating an entity",
       err: err,

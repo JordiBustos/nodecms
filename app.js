@@ -3,6 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const db = require("./src/db");
 
 const entitiesRouter = require("./src/routes/entities.router");
 const instancesRouter = require("./src/routes/instances.router");
@@ -24,6 +25,14 @@ app.use("/api/instances", instancesRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
+db.sync()
+  .then(() => {
+    console.log("Database synchronized successfully");
+  })
+  .catch((error) => {
+    console.error("Error synchronizing database:", error);
+  });
 
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;

@@ -4,22 +4,16 @@ const {
   getInstances,
   getInstanceByName,
   createInstance,
-  deleteInstanceByName,
   updateInstanceByName,
-} = require("../controllers/entities.controller");
-/*
-const {
-  InstancesPostValidation,
-  getInstancesByNameValidation,
-  validateParamNotEmpty,
-} = require("../middlewares/entities.validator");
-*/
+  deleteInstanceByName,
+} = require("../controllers/instances.controller");
+
 const instancesRouter = Router();
 
-entitiesRouter.get("/", getEntities);
-entitiesRouter.post("/", InstancesPostValidation(), createInstances);
-entitiesRouter.get("/:name", getInstancesByNameValidation(), getInstancesByName);
-entitiesRouter.put("/:name", validateParamNotEmpty(), updateInstancesByName);
-entitiesRouter.delete("/:name", validateParamNotEmpty(), deleteInstancesByName);
+instancesRouter.get("/:tableName", getInstances);
+instancesRouter.post("/:tableName", createInstance);
+instancesRouter.get("/:tableName/:name", getInstanceByName);
+instancesRouter.put("/:name", updateInstanceByName);
+instancesRouter.delete("/:name", deleteInstanceByName);
 
 module.exports = instancesRouter;
