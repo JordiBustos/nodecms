@@ -1,44 +1,41 @@
 // const Instances = require("../models/instances.model");
 const db = require("../db");
+const { generateResponse } = require("../utils/generateResponse");
 
 const getInstances = async (req, res) => {
   try {
     const dynamicModel = db.models[req.params.tableName];
     const result = await dynamicModel.findAll();
-    if (result.length === 0) {
-      res.send({ msg: "Table is empty" });
-    } else {
-      res.send(result);
-    }
+    if (result.length === 0)
+      return generateResponse(res, null, 404, "Table is empty");
+    res.status(200).send(result);
   } catch (err) {
-    console.error(err);
-    res.status(500).send({
-      msg: "Something went wrong",
-      err: err,
-    });
+    return generateResponse(res, err, 500, "Something went wrong");
   }
 };
 
 const createInstance = async (req, res) => {
   const tableName = req.params.tableName;
   if (tableName === "Entities")
-    res.status(400).send({
-      msg: "Entities cannot be created through this endpoint",
-      err: "Invalid endpoint",
-    });
+    return generateResponse(
+      res,
+      "Invalid endpoint",
+      400,
+      "Entities cannot be created through this endpoint"
+    );
   try {
     const dynamicModel = db.model(tableName);
     const newRow = await dynamicModel.create(req.body);
     await db.sync({ alter: true });
-    res.status(200).send({
-      msg: "New instance created succesfully",
-      instance: newRow,
-    });
+    return generateResponse(
+      res,
+      null,
+      200,
+      "New instance created succesfully",
+      newRow
+    );
   } catch (err) {
-    res.status(500).send({
-      msg: "Something went wrong",
-      err: err,
-    });
+    return generateResponse(res, err, 500, "Something went wrong");
   }
 };
 
@@ -52,26 +49,75 @@ const getInstanceByName = async (req, res) => {
       },
     });
     if (!row) {
-      return res.status(404).send({
-        msg: "Entity not found",
-        err: "Entity does not exist in entities table",
-      });
+      return generateResponse(
+        res,
+        "Entity does not exist in entities table",
+        404,
+        "Entity not found"
+      );
     }
-    res.send(row);
+    res.status(200).send(row);
   } catch (err) {
-    res.status(500).send({
-      msg: "Instance not found",
-      err: err,
-    });
+    return generateResponse(res, err, 500, "Something went wrong");
   }
 };
 
 /*
   TODO  Dinamically add fields into the "name" table
 */
-const updateInstanceByName = async (req, res) => {};
+const updateInstanceByName = async (req, res) => {
+  const tableName = req.params.tableName;
+  const instanceName = req.body.name;
+  try {
+    const dynamicModel = db.models[tableName];
+    const updatedInstance = await dynamicModel.update(
+      {
+        name: req.body.name,
+        ...req.body,
+      },
+      {
+        where: {
+          name: instanceName,
+        },
+      }
+    );
 
-const deleteInstanceByName = async (req, res) => {};
+    if (!updatedInstance)
+      return generateResponse(
+        res,
+        "The instance was not found in the database",
+        404,
+        "Instance not found"
+      );
+    res.status(200).send({
+      msg: "Instance updated successfuly",
+    });
+  } catch (err) {
+    return generateResponse(res, err, 500, "Something went wrong");
+  }
+};
+
+const deleteInstanceByName = async (req, res) => {
+  const tableName = req.params.tableName;
+  const name = req.body.name;
+
+  if (!name)
+    return generateResponse(res, "The name is required", 400, "Bad request");
+
+  try {
+    await db.models[tableName].destroy({
+      where: {
+        name: name,
+      },
+    });
+
+    res.status(200).send({
+      msg: "Instance deleted successfuly",
+    });
+  } catch (err) {
+    return generateResponse(res, err, 500, "Something went wrong");
+  }
+};
 
 module.exports = {
   createInstance,

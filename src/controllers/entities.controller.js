@@ -1,5 +1,6 @@
 const Entities = require("../models/entities.model");
 const generateAttributtes = require("../utils/dtypes");
+const { generateResponse } = require("../utils/generateResponse");
 const db = require("../db");
 const fs = require("fs");
 const path = require("path");
@@ -7,16 +8,11 @@ const path = require("path");
 const getEntities = async (req, res) => {
   try {
     const entities = await Entities.findAll();
-    if (entities.length === 0) {
-      res.send({ msg: "Table is empty" });
-    } else {
-      res.send(entities);
-    }
+    if (entities.length === 0)
+      return generateResponse(res, null, 404, "Table is empty");
+    res.status(200).send(entities);
   } catch (err) {
-    res.status(500).send({
-      msg: "Something went wrong while fetching all entities",
-      err: err,
-    });
+    return generateResponse(res, err, 500, "Something went wrong");
   }
 };
 
@@ -28,10 +24,13 @@ const createEntity = async (req, res) => {
       req.body.fields_types
     );
     if (attr === null)
-      res.status(400).send({
-        msg: "fields_names and fields_type should be an array of strings",
-        err: "Invalid datatypes provided in fields_names and fields_types",
-      });
+      return generateResponse(
+        res,
+        "Invalid datatypes provided in fields_names and fields_types",
+        400,
+        "fields_names and fields_type should be an array of strings"
+      );
+
     const configDir = path.join(__dirname, "../config");
 
     if (!fs.existsSync(configDir)) {
@@ -40,28 +39,35 @@ const createEntity = async (req, res) => {
 
     if (!db.models[req.body.name]) {
       const model = db.define(req.body.name, attr, { freezeTableName: true });
-      await db.sync({ alter: true });
+      await model.sync({ alter: true });
 
       const modelJSON = JSON.stringify({
         name: req.body.name,
         attr: attr,
       });
-
-      fs.writeFileSync(
-        path.join(configDir, `${req.body.name}.json`),
-        modelJSON
-      );
+      try {
+        fs.writeFileSync(
+          path.join(configDir, `${req.body.name}.json`),
+          modelJSON
+        );
+      } catch (err) {
+        return generateResponse(
+          res,
+          err,
+          500,
+          "Something went wrong saving the model"
+        );
+      }
     }
-    res.status(200).send({
-      msg: "Entity created succesfully",
-      entity: entity,
-    });
+    return generateResponse(
+      res,
+      null,
+      200,
+      "Entity created succesfully",
+      entity
+    );
   } catch (err) {
-    console.log(err);
-    res.status(500).send({
-      msg: "Something went wrong while creating an entity",
-      err: err,
-    });
+    return generateResponse(res, err, 500, "Something went wrong");
   }
 };
 
@@ -73,19 +79,22 @@ const getEntityByName = async (req, res) => {
       },
     });
 
-    if (!entity) {
-      return res.status(404).send({
-        msg: "Entity not found",
-        err: "Entity does not exist in entities table",
-      });
-    }
-
-    res.send(entity);
+    if (!entity)
+      return generateResponse(
+        res,
+        "Entity does not exist in entities table",
+        404,
+        "Entity not found"
+      );
+    return generateResponse(
+      res,
+      null,
+      200,
+      "Response generated successfuly",
+      entity
+    );
   } catch (err) {
-    return res.status(500).send({
-      msg: "Something went wrong while searching for the entity",
-      err: err,
-    });
+    return generateResponse(res, err, 500, "Something went wrong");
   }
 };
 
@@ -104,17 +113,22 @@ const updateEntityByName = async (req, res) => {
       returning: true,
     });
     if (rowsUpdated === 0) {
-      return res.status(404).send({
-        msg: "Entity not found",
-        err: "No matching entity found for the given name",
-      });
+      return generateResponse(
+        res,
+        "No matching entity found for the given name",
+        404,
+        "Entity not found"
+      );
     }
-    res.status(200).send(updatedEntity);
+    return generateResponse(
+      res,
+      null,
+      200,
+      "Entity updated successfuly",
+      updatedEntity
+    );
   } catch (err) {
-    res.status(500).send({
-      msg: "Error updating the entity",
-      err: err,
-    });
+    return generateResponse(res, err, 500, "Something went wrong");
   }
 };
 
@@ -133,21 +147,16 @@ const deleteEntityByName = async (req, res) => {
 
       await db.query(`DROP TABLE IF EXISTS "${tableName}"`);
 
-      res.status(200).send({
-        msg: "Entity deleted successfully",
-      });
-    } else {
-      res.status(404).send({
-        msg: "The entity does not exist",
-        err: "The entity was not found in the database",
-      });
+      return generateResponse(res, null, 200, "Entity deleted successfully");
     }
+    return generateResponse(
+      res,
+      "The entity was not found in the database",
+      404,
+      "The entity does not exist"
+    );
   } catch (error) {
-    console.error("Error deleting entity:", error);
-    res.status(500).send({
-      msg: "Something went wrong while deleting the entity",
-      err: "Internal server error while deleting the entity",
-    });
+    return generateResponse(res, err, 500, "Something went wrong");
   }
 };
 
