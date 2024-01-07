@@ -2,12 +2,19 @@ const Entities = require("../models/entities.models");
 const generateAttributtes = require("../utils/dtypes");
 const db = require("../db");
 
-const get_entities = async (req, res) => {
-  const entities = await Entities.findAll();
-  res.send(entities);
+const getEntities = async (req, res) => {
+  try {
+    const entities = await Entities.findAll();
+    res.send(entities);
+  } catch (err) {
+    res.status(500).send({
+      msg: "Something went wrong while fetching all entities",
+      err: err,
+    });
+  }
 };
 
-const create_entity = async (req, res) => {
+const createEntity = async (req, res) => {
   try {
     const entity = await Entities.create(req.body);
     const attr = generateAttributtes(
@@ -33,40 +40,39 @@ const create_entity = async (req, res) => {
   }
 };
 
-const get_entity_by_name = async (req, res) => {
+const getEntityByName = async (req, res) => {
   try {
     const entity = await Entities.findOne({
       where: {
         name: req.params.name,
       },
     });
-    if (!entity)
-      res.status(404).send({
+
+    if (!entity) {
+      return res.status(404).send({
         msg: "Entity not found",
-        err: "Entity does not exists in entities table",
+        err: "Entity does not exist in entities table",
       });
+    }
 
     res.send(entity);
   } catch (err) {
-    res.status(500).send({
-      msg: "Something went wrong while searching the entity",
+    return res.status(500).send({
+      msg: "Something went wrong while searching for the entity",
       err: err,
     });
   }
 };
 
-const update_entity_by_name = (req, res) => {};
+const updateEntityByName = (req, res) => {};
 
-const delete_entity_by_name = async (req, res) => {
+const deleteEntityByName = async (req, res) => {
   try {
     const tableName = req.params.name;
-    listAllTables();
-    // Check if the table exists in the database
     const tableExistsQuery = `SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = '${tableName}')`;
     const [result] = await db.query(tableExistsQuery);
 
     if (result[0].exists) {
-      // Table exists, delete entity and drop the table
       await Entities.destroy({
         where: {
           name: tableName,
@@ -79,7 +85,6 @@ const delete_entity_by_name = async (req, res) => {
         msg: "Entity deleted successfully",
       });
     } else {
-      // Table does not exist
       res.status(404).send({
         msg: "The entity does not exist",
         err: "The entity was not found in the database",
@@ -94,32 +99,10 @@ const delete_entity_by_name = async (req, res) => {
   }
 };
 
-const listAllTables = async () => {
-  try {
-    const query = `
-      SELECT table_name
-      FROM information_schema.tables
-      WHERE table_schema = 'public'
-      AND table_type = 'BASE TABLE';
-    `;
-
-    const [result] = await db.query(query);
-
-    if (result.length > 0) {
-      const tables = result.map((row) => row.table_name);
-      console.log("List of tables:", tables);
-    } else {
-      console.log("No tables found in the database.");
-    }
-  } catch (error) {
-    console.error("Error listing tables:", error);
-  }
-};
-
 module.exports = {
-  create_entity,
-  get_entities,
-  get_entity_by_name,
-  update_entity_by_name,
-  delete_entity_by_name,
+  createEntity,
+  getEntities,
+  getEntityByName,
+  updateEntityByName,
+  deleteEntityByName,
 };
