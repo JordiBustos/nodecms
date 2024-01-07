@@ -12,12 +12,12 @@ const getEntityByNameValidation = () => {
   return [param("name").trim().notEmpty()];
 };
 
-const deleteEntityByNameValidation = () => {
+const validateParamNotEmpty = () => {
   return [param("name").trim().notEmpty()];
 };
 
 module.exports = {
   entityPostValidation,
   getEntityByNameValidation,
-  deleteEntityByNameValidation
+  validateParamNotEmpty
 };

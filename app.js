@@ -32,23 +32,3 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
-
-/* SAVE FOR LATER THIS QUERY DINAMICALLY
-const queryEntity = async (req, res) => {
-  try {
-    const dynamicModel = db.model(req.body.name);
-
-    const result = await dynamicModel.findAll();
-    
-    res.status(200).send({
-      msg: "Query successful",
-      result: result,
-    });
-  } catch (err) {
-    res.status(500).send({
-      msg: "Something went wrong while querying the entity",
-      err: err,
-    });
-  }
-};
-*/

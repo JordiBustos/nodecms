@@ -1,4 +1,4 @@
-const Entities = require("../models/entities.models");
+const Entities = require("../models/entities.model");
 const generateAttributtes = require("../utils/dtypes");
 const db = require("../db");
 
@@ -64,7 +64,34 @@ const getEntityByName = async (req, res) => {
   }
 };
 
-const updateEntityByName = (req, res) => {};
+/*
+  TODO  Dinamically add fields into the "name" table
+*/
+const updateEntityByName = async (req, res) => {
+  const updateData = req.body;
+  const name = req.params.name;
+
+  try {
+    const [rowsUpdated, [updatedEntity]] = await Entities.update(updateData, {
+      where: {
+        name: name,
+      },
+      returning: true,
+    });
+    if (rowsUpdated === 0) {
+      return res.status(404).send({
+        msg: "Entity not found",
+        err: "No matching entity found for the given name",
+      });
+    }
+    res.status(200).send(updatedEntity);
+  } catch (err) {
+    res.status(500).send({
+      msg: "Error updating the entity",
+      err: err,
+    });
+  }
+};
 
 const deleteEntityByName = async (req, res) => {
   try {
