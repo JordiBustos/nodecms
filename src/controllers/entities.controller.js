@@ -1,6 +1,8 @@
 const Entities = require("../models/entities.model");
 const generateAttributtes = require("../utils/dtypes");
 const db = require("../db");
+const fs = require("fs");
+const path = require("path");
 
 const getEntities = async (req, res) => {
   try {
@@ -30,9 +32,25 @@ const createEntity = async (req, res) => {
         msg: "fields_names and fields_type should be an array of strings",
         err: "Invalid datatypes provided in fields_names and fields_types",
       });
+    const configDir = path.join(__dirname, "../config");
+
+    if (!fs.existsSync(configDir)) {
+      fs.mkdirSync(configDir);
+    }
+
     if (!db.models[req.body.name]) {
       const model = db.define(req.body.name, attr, { freezeTableName: true });
       await db.sync({ alter: true });
+
+      const modelJSON = JSON.stringify({
+        name: req.body.name,
+        attr: attr,
+      });
+
+      fs.writeFileSync(
+        path.join(configDir, `${req.body.name}.json`),
+        modelJSON
+      );
     }
     res.status(200).send({
       msg: "Entity created succesfully",
