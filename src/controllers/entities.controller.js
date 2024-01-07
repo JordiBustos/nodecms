@@ -30,8 +30,10 @@ const createEntity = async (req, res) => {
         msg: "fields_names and fields_type should be an array of strings",
         err: "Invalid datatypes provided in fields_names and fields_types",
       });
-    const model = db.define(req.body.name, attr, { freezeTableName: true });
-    await db.sync({alter: true});
+    if (!db.models[req.body.name]) {
+      const model = db.define(req.body.name, attr, { freezeTableName: true });
+      await db.sync({ alter: true });
+    }
     res.status(200).send({
       msg: "Entity created succesfully",
       entity: entity,

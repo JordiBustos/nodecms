@@ -3,7 +3,7 @@ const db = require("../db");
 
 const getInstances = async (req, res) => {
   try {
-    const dynamicModel = db.model(req.params.tableName);
+    const dynamicModel = db.models[req.params.tableName];
     const result = await dynamicModel.findAll();
     if (result.length === 0) {
       res.send({ msg: "Table is empty" });
@@ -11,6 +11,7 @@ const getInstances = async (req, res) => {
       res.send(result);
     }
   } catch (err) {
+    console.error(err);
     res.status(500).send({
       msg: "Something went wrong",
       err: err,
