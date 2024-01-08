@@ -6,12 +6,9 @@ const entityPostValidation = () => [
   body("fields_types").isArray().notEmpty(),
 ];
 
-const getEntityByNameValidation = () => [param("name").trim().notEmpty()];
-
-const validateParamNotEmpty = () => [param("name").trim().notEmpty()];
+const paramNameValidation = () => [param("name").trim().notEmpty()];
 
 module.exports = {
   entityPostValidation,
-  getEntityByNameValidation,
-  validateParamNotEmpty,
+  paramNameValidation,
 };

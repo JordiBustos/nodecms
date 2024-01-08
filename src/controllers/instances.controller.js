@@ -105,15 +105,27 @@ const deleteInstanceByName = async (req, res) => {
     return generateResponse(res, "The name is required", 400, "Bad request");
 
   try {
-    await db.models[tableName].destroy({
+    const deletedInstance = await db.models[tableName].destroy({
       where: {
         name: name,
       },
     });
 
-    res.status(200).send({
-      msg: "Instance deleted successfuly",
-    });
+    if (deletedInstance === 0)
+      return generateResponse(
+        res,
+        "The instance was not found in the database",
+        404,
+        "Instance not found"
+      );
+
+    return generateResponse(
+      res,
+      null,
+      200,
+      "Instance deleted successfuly",
+      deletedInstance
+    );
   } catch (err) {
     return generateResponse(res, err, 500, "Something went wrong");
   }

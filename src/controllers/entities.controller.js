@@ -1,16 +1,16 @@
 const Entities = require("../models/entities.model");
 const generateAttributtes = require("../utils/dtypes");
 const { generateResponse } = require("../utils/generateResponse");
+const saveModelFile = require("../utils/saveModelFile");
 const db = require("../db");
-const fs = require("fs");
-const path = require("path");
 
 const getEntities = async (req, res) => {
   try {
     const entities = await Entities.findAll();
-    if (entities.length === 0)
+    if (entities.length === 0) {
       return generateResponse(res, null, 404, "Table is empty");
-    res.status(200).send(entities);
+    }
+    return generateResponse(res, null, 200, "Entities retrieved successfully", entities);
   } catch (err) {
     return generateResponse(res, err, 500, "Something went wrong");
   }
@@ -18,52 +18,33 @@ const getEntities = async (req, res) => {
 
 const createEntity = async (req, res) => {
   try {
+    const { name, fields_names, fields_types } = req.body;
     const entity = await Entities.create(req.body);
-    const attr = generateAttributtes(
-      req.body.fields_names,
-      req.body.fields_types
-    );
-    if (attr === null)
+    const attributes = generateAttributtes(fields_names, fields_types);
+
+    if (attributes === null) {
       return generateResponse(
         res,
         "Invalid datatypes provided in fields_names and fields_types",
         400,
         "fields_names and fields_type should be an array of strings"
       );
-
-    const configDir = path.join(__dirname, "../config");
-
-    if (!fs.existsSync(configDir)) {
-      fs.mkdirSync(configDir);
     }
 
-    if (!db.models[req.body.name]) {
-      const model = db.define(req.body.name, attr, { freezeTableName: true });
-      await model.sync({ alter: true });
-
-      const modelJSON = JSON.stringify({
-        name: req.body.name,
-        attr: attr,
+    if (!db.models[name]) {
+      const model = db.define(name, attributes, { freezeTableName: true });
+      await db.transaction(async (transaction) => {
+        await model.sync({ alter: true, transaction });
+        const modelJSON = JSON.stringify({ name, attributes });
+        await saveModelFile(`${name}.json`, modelJSON, transaction);
       });
-      try {
-        fs.writeFileSync(
-          path.join(configDir, `${req.body.name}.json`),
-          modelJSON
-        );
-      } catch (err) {
-        return generateResponse(
-          res,
-          err,
-          500,
-          "Something went wrong saving the model"
-        );
-      }
     }
+
     return generateResponse(
       res,
       null,
       200,
-      "Entity created succesfully",
+      "Entity created successfully",
       entity
     );
   } catch (err) {
