@@ -8,7 +8,7 @@ const getEntities = async (req, res) => {
   try {
     const entities = await Entities.findAll();
     if (entities.length === 0) {
-      return generateResponse(res, null, 404, "Table is empty");
+      return generateResponse(res, null, 404, "Table is empty", []);
     }
     return generateResponse(res, null, 200, "Entities retrieved successfully", entities);
   } catch (err) {

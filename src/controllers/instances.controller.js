@@ -7,7 +7,7 @@ const getInstances = async (req, res) => {
     const dynamicModel = db.models[req.params.tableName];
     const result = await dynamicModel.findAll();
     if (result.length === 0)
-      return generateResponse(res, null, 404, "Table is empty");
+      return generateResponse(res, null, 404, "Table is empty", []);
     res.status(200).send(result);
   } catch (err) {
     return generateResponse(res, err, 500, "Something went wrong");
