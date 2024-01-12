@@ -1,13 +1,18 @@
-import useApiFetch from "../hooks/useApiFetch"
+import React, { useState, useEffect } from 'react';
+import useApiFetch from '../hooks/useApiFetch';
+import InstanceForm from './InstanceForm';
 
 const InstanceList = ({ instanceName }) => {
-    const apiUrl = "http://127.0.0.1:3000/api/instances/" + instanceName;
-    const { data, loading, error } = useApiFetch(apiUrl, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    const [showForm, setShowForm] = useState(false);
+    const [refreshData, setRefreshData] = useState(false);
+    const apiUrl = `http://127.0.0.1:3000/api/instances/${instanceName}`;
+    const { data, loading, error } = useApiFetch(apiUrl, [refreshData]);
+
+    useEffect(() => {
+        if (refreshData) {
+            setRefreshData(false);
+        }
+    }, [refreshData]);
 
     if (loading) {
         return <p>Loading...</p>;
@@ -29,8 +34,10 @@ const InstanceList = ({ instanceName }) => {
                     ))
                 )}
             </ul>
+            {showForm && <InstanceForm instanceName={instanceName} onAddInstance={() => setRefreshData(true)} />}
+            <button onClick={() => setShowForm(!showForm)}>{showForm ? 'Hide form' : 'Add New Instance'}</button>
         </div>
-    )
-}
+    );
+};
 
 export default InstanceList;

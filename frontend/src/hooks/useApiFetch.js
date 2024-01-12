@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-const useApiFetch = (url) => {
+const useApiFetch = (url, dependencies = []) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,7 +23,7 @@ const useApiFetch = (url) => {
     };
 
     fetchData();
-  }, [url]);
+  }, [url, ...(Array.isArray(dependencies) ? dependencies : [])]);
 
   return { data, loading, error };
 };
