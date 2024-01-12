@@ -44,6 +44,8 @@ DATABASE_PASSWORD
 
 Retorna todas las entidades creadas en la base de datos.
 
+----
+
 - **Método:** POST
 - **URL:** `api/entities`
 
@@ -58,20 +60,28 @@ Crea una nueva entidad en la base de datos.
 | fields_names | arr[str]| Array con los nombres de los fields                 |
 | desc         | str     | Descripcion opcional
 
+----
+
 - **Método:** GET
 - **URL:** `api/entities/{name}`
 
 Retorna la entidad llamada name y un diccionario con la key "msg" y "value" con la informacion de la misma.
+
+----
 
 - **Método:** DELETE
 - **URL:** `api/entities/{name}`
 
 Elimina la entidad llamada name de la base de datos.
 
+----
+
 - **Método:** PUT
 - **URL:** `api/entities/{name}`
 
 Actualiza la entidad name con los valores pasados en el body.
+
+----
 
 - **Método:** GET 
 - **URL:** `api/instances/{tableName}`
@@ -79,10 +89,14 @@ Actualiza la entidad name con los valores pasados en el body.
 
 Retorna todas los instancias de la entidad tableName.
 
+----
+
 - **Método:** POST
 - **URL:** `api/instances/{tableName}`
 
 Agrega un contenido a la entidad, se deben enviar los campos especificados a la hora de crear la entidad.
+
+----
 
 - **Método:** GET
 - **URL:** `api/instances/{tableName}/{name}`
@@ -90,10 +104,14 @@ Agrega un contenido a la entidad, se deben enviar los campos especificados a la 
 
 Retorna la instancia name dentro de la tabla de la entidad tableName correspondiente.
 
+----
+
 - **Método:** PUT
 - **URL:** `api/instances/{tableName}/{name}`
 
 Actualiza la instancia name de la tabla de la entidad tableName con los datos del body.
+
+----
 
 - **Método:** DELETE
 - **URL:** `api/instances/{tableName}/{name}`
