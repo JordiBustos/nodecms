@@ -1,8 +1,9 @@
 import "./App.css";
 import useApiFetch from "./hooks/useApiFetch";
+import Form from "./components/Form";
 
 function App() {
-  const apiUrl = "http://127.0.0.1:8080/api/instances/cantantes";
+  const apiUrl = "http://127.0.0.1:3000/api/entities";
   const { data, loading, error } = useApiFetch(apiUrl, {
     method: "GET",
     headers: {
@@ -28,6 +29,7 @@ function App() {
           ))}
         </ul>
       )}
+      <Form />
     </div>
   );
 }
