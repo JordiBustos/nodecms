@@ -58,18 +58,49 @@ Crea una nueva entidad en la base de datos.
 | fields_names | arr[str]| Array con los nombres de los fields                 |
 | desc         | str     | Descripcion opcional
 
+- **Método:** GET
+- **URL:** `api/entities/{name}`
 
-GET    /api/entities/{name} retorna la entidad llamada name
-DELETE /api/entities/{name} elimina la entidad llamada name
-UPDATE /api/entities/{name} actualiza la entidad con los valores pasados en el body
+Retorna la entidad llamada name y un diccionario con la key "msg" y "value" con la informacion de la misma.
 
-GET    /api/instances/{tableName} retorna todas los contenidos de la entidad
-POST   /api/instances/{tableName} agrega un contenido a la entidad
+- **Método:** DELETE
+- **URL:** `api/entities/{name}`
 
-GET    /api/instances/{tableName}/{name} retorna un contenido de la tabla de la entidad
-UPDATE /api/instances/{tableName}/{name} actualiza un elemento de la tabla de la entidad
-DELETE /api/instances/{tableName}/{name} elimina un elemento de la tabla de la entidad
+Elimina la entidad llamada name de la base de datos.
+
+- **Método:** PUT
+- **URL:** `api/entities/{name}`
+
+Actualiza la entidad name con los valores pasados en el body.
+
+- **Método:** GET 
+- **URL:** `api/instances/{tableName}`
+
+
+Retorna todas los instancias de la entidad tableName.
+
+- **Método:** POST
+- **URL:** `api/instances/{tableName}`
+
+Agrega un contenido a la entidad, se deben enviar los campos especificados a la hora de crear la entidad.
+
+- **Método:** GET
+- **URL:** `api/instances/{tableName}/{name}`
+
+
+Retorna la instancia name dentro de la tabla de la entidad tableName correspondiente.
+
+- **Método:** PUT
+- **URL:** `api/instances/{tableName}/{name}`
+
+Actualiza la instancia name de la tabla de la entidad tableName con los datos del body.
+
+- **Método:** DELETE
+- **URL:** `api/instances/{tableName}/{name}`
+
+Elimina la instancia name de la tabla de la entidad tableName.
 
 ## TODO
 - frontend para interactuar a través de formularios
 - taxonomías como drupal
+- delete and update modifications in src/config
