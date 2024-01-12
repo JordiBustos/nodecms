@@ -4,6 +4,25 @@ NodeCMS es un CMS creado con Express.js, Node.js y Postgresql que le permite al 
 
 Es decir, el usuario puede crear una tabla Noticias y luego crear instancias de esas noticias, con los campos custom que desee, con los tipos de datos que aporta postgresql.
 
+# Instalación
+
+Se requiere previamente una base de datos POSTGRESQL
+
+Completar las siguientes variables de entorno para realizar la conexión a la db.
+DATABASE_URL,
+DATABASE_PORT,
+DATABASE_HOST,
+DATABASE_USER,
+DATABASE_PASSWORD
+
+Ejecutar
+
+- npm install
+- cd frontend
+- npm install
+- mkdir src/config
+
+
 ## Endpoint
 
 GET    /api/entities retorna todas las entidades creadas.
