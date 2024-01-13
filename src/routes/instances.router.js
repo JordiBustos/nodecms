@@ -12,7 +12,7 @@ const {
   getInstancesValidation,
   instancePostValidation,
   getInstanceByNameValidation,
-  nameInBodyValidation,
+  validateParamNotEmpty,
 } = require("../middlewares/instances.validator");
 
 const instancesRouter = Router();
@@ -25,13 +25,13 @@ instancesRouter.get(
   getInstanceByName
 );
 instancesRouter.put(
-  "/:tableName",
-  nameInBodyValidation(),
+  "/:tableName/:name",
+  validateParamNotEmpty(),
   updateInstanceByName
 );
 instancesRouter.delete(
-  "/:tableName",
-  nameInBodyValidation(),
+  "/:tableName/:name",
+  validateParamNotEmpty(),
   deleteInstanceByName
 );
 

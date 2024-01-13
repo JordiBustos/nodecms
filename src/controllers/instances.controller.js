@@ -67,7 +67,7 @@ const getInstanceByName = async (req, res) => {
 */
 const updateInstanceByName = async (req, res) => {
   const tableName = req.params.tableName;
-  const instanceName = req.body.name;
+  const instanceName = req.params.name;
   try {
     const dynamicModel = db.models[tableName];
     const updatedInstance = await dynamicModel.update(
@@ -99,7 +99,7 @@ const updateInstanceByName = async (req, res) => {
 
 const deleteInstanceByName = async (req, res) => {
   const tableName = req.params.tableName;
-  const name = req.body.name;
+  const name = req.params.name;
 
   if (!name)
     return generateResponse(res, "The name is required", 400, "Bad request");
