@@ -7,6 +7,11 @@ const InstanceList = () => {
     const [showForm, setShowForm] = useState(false);
     const [refreshData, setRefreshData] = useState(false);
     const { state } = useLocation();
+    if (!state) {
+        return <h1>
+            Something went wrong :(
+        </h1>;
+    }
     const { name } = state;
 
     const apiUrl = `http://127.0.0.1:3000/api/instances/${name}`;

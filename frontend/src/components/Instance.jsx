@@ -4,6 +4,11 @@ import { useState } from "react";
 const Instance = () => {
     const [apiResponseStatus, setApiResponseStatus] = useState(null);
     const { state } = useLocation();
+    if (!state) {
+        return <h1>
+            Something went wrong :(
+        </h1>;
+    }
     const { instance } = state;
     const { entityName } = useParams()
     const navigate = useNavigate();
