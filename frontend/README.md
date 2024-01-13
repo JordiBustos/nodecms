@@ -1,8 +1,9 @@
-# React + Vite
+# Frontend NodeCMS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Al momento el frontend para visualizar y realizar operaciones CRUD cuenta con vistas simples, en forma de listas, con un formulario que permite al usuario modificar las entidades o instancias.
 
-Currently, two official plugins are available:
+## TODO
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Delete entity button and modal confirmation
+- Edit instance form
+- Search component to filter entities and instances
