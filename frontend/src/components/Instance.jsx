@@ -9,13 +9,14 @@ const Instance = () => {
 
     return (
         <>
-            <h1>Instance</h1>
+            <h1>{instance.name}</h1>
             {
                 instance && (
                     Object.keys(instance).map((key) => (
-                        <p key={key}>
-                            <strong>{key}:</strong> {instance[key]}
-                        </p>
+                        key !== "name" && (
+                            <p key={key}>
+                                <strong>{key}:</strong> {instance[key]}
+                            </p>)
                     )
                     )
                 )}
