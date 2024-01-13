@@ -3,13 +3,15 @@ const generateAttributtes = require("../utils/dtypes");
 const { generateResponse } = require("../utils/generateResponse");
 const saveModelFile = require("../utils/saveModelFile");
 const db = require("../db");
+const fs = require("fs");
+const path = require("path");
 
 const getEntities = async (req, res) => {
   try {
     const entities = await Entities.findAll();
-    if (entities.length === 0) {
+    if (entities.length === 0)
       return generateResponse(res, null, 404, "Table is empty", []);
-    }
+
     return generateResponse(
       res,
       null,
@@ -133,6 +135,12 @@ const deleteEntityByName = async (req, res) => {
       });
 
       await db.query(`DROP TABLE IF EXISTS "${tableName}"`);
+      const configFilePath = path.join(
+        __dirname,
+        "../config",
+        `${tableName}.json`
+      );
+      fs.unlinkSync(configFilePath);
 
       return generateResponse(res, null, 200, "Entity deleted successfully");
     }
