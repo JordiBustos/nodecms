@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const EntitiesForm = () => {
+const EntitiesForm = ({ onAddEntity }) => {
     const [name, setName] = useState("");
     const [fields, setFields] = useState([{ field_name: "", field_type: "TEXT" }]);
     const [submissionStatus, setSubmissionStatus] = useState(null);
@@ -46,6 +46,7 @@ const EntitiesForm = () => {
                 setSubmissionStatus("success");
                 setName("");
                 setFields([{ field_name: "", field_type: "TEXT" }]);
+                onAddEntity();
             } else {
                 setSubmissionStatus("error");
             }

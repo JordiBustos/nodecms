@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 
-const EntitiesList = ({ data }) => {
+const EntitiesList = ({ data, onAddEntity }) => {
     const [showForm, setShowForm] = useState(false);
-
     return (
         <div>
             <h1>Entities List</h1>
@@ -19,7 +18,7 @@ const EntitiesList = ({ data }) => {
                     ))
                 )}
             </ul>
-            {showForm && <EntitiesForm />}
+            {showForm && <EntitiesForm onAddEntity={onAddEntity} />}
             <button onClick={() => setShowForm(!showForm)}>{showForm ? "Hide form" : "Add New Entity"}</button>
         </div>
     )

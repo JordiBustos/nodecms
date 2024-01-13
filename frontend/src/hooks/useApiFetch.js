@@ -9,8 +9,16 @@ const useApiFetch = (url, dependencies = []) => {
     const fetchData = async () => {
       try {
         const response = await fetch(url);
+
         if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.statusText}`);
+          const errorMessage = `Failed to fetch data: ${response.statusText}`;
+          setError(errorMessage);
+
+          if (response.status === 404) {
+            setError("Not Found - No elements found");
+          }
+
+          throw new Error(errorMessage);
         }
 
         const result = await response.json();
