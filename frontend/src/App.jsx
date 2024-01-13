@@ -31,7 +31,7 @@ function App() {
     <div>
       <Routes>
         <Route path="/:entityName" element={<InstanceList />} />
-        <Route path="/" element={<EntitiesList data={data} onAddEntity={() => setRefreshData(true)} />} />
+        <Route path="/" element={<EntitiesList data={data} onChangeData={() => setRefreshData(true)} />} />
         <Route path="/:entityName/:name" element={<Instance />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>

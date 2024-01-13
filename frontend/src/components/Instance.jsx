@@ -1,7 +1,6 @@
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import backendUrl from "../constants/backend";
-import { render } from "jade";
 
 const Instance = () => {
 	const [apiResponseStatus, setApiResponseStatus] = useState(null);

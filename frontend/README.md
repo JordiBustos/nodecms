@@ -4,6 +4,5 @@ Al momento el frontend para visualizar y realizar operaciones CRUD cuenta con vi
 
 ## TODO
 
-- Delete entity button and modal confirmation
+- Delete modal confirmation and fix bug when there is just one instance and it is deleted.
 - Edit instance form
-- Search component to filter entities and instances

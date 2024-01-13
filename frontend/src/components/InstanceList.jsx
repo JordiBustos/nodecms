@@ -11,6 +11,7 @@ const InstanceList = () => {
   const [showForm, setShowForm] = useState(false);
   const [inputText, setInputText] = useState("");
   const [refreshData, setRefreshData] = useState(false);
+  const [apiResponseStatus, setApiResponseStatus] = useState(null);
   const { state } = useLocation();
 
   if (!state) {
@@ -19,6 +20,29 @@ const InstanceList = () => {
     </h1>;
   }
   const { name } = state;
+
+  function createList(data, state, inputText, tableName) {
+    return (
+      filterByName(data, inputText).map((item) =>
+        <ListItem key={item.name} name={item.name} state={state} onDelete={() => onDelete(tableName, item.name)} />
+      ));
+  }
+
+  const onDelete = async (entityName, instanceName) => {
+    const deleteApiUrl = `${backendUrl}/instances/${entityName}/${instanceName}`
+    try {
+      const response = await fetch(deleteApiUrl, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setApiResponseStatus(response.message);
+      setRefreshData(true);
+    } catch (error) {
+      setApiResponseStatus(error);
+    }
+  };
 
   const apiUrl = `${backendUrl}/instances/${name}`;
   const { data, loading, error } = useApiFetch(apiUrl, [refreshData]);
@@ -39,11 +63,7 @@ const InstanceList = () => {
           <p>{error || "Something went wrong"}</p>
         ) : (
           <ul>
-            {data &&
-              filterByName(data, inputText).map((item) =>
-                <ListItem key={item.name} name={item.name} state={item} />
-              )
-            }
+            {data && createList(data, state, inputText, name)}
           </ul>
         )
       }
@@ -59,9 +79,6 @@ const InstanceList = () => {
     </div>
   );
 };
-
-
-
 
 
 export default InstanceList;
