@@ -9,14 +9,14 @@ import Instance from "./components/Instance";
 function App() {
   const [refreshData, setRefreshData] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => { // called when a new entity is created to show new entity in the list
     if (refreshData) {
       setRefreshData(false);
     }
   }, [refreshData]);
 
   const apiUrl = "http://127.0.0.1:3000/api/entities";
-  const { data, loading, error } = useApiFetch(apiUrl, refreshData);
+  const { data, loading, error } = useApiFetch(apiUrl, [refreshData]);
 
   if (loading) {
     return <p>Loading...</p>;
