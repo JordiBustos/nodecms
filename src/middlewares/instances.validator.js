@@ -14,12 +14,9 @@ const getInstanceByNameValidation = () => [
 
 const validateParamNotEmpty = () => [param("name").trim().notEmpty()];
 
-const nameInBodyValidation = () => [body("name").trim().notEmpty()];
-
 module.exports = {
   getInstancesValidation,
   instancePostValidation,
   getInstanceByNameValidation,
   validateParamNotEmpty,
-  nameInBodyValidation
 };
