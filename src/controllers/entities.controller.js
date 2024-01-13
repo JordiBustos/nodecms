@@ -10,7 +10,13 @@ const getEntities = async (req, res) => {
     if (entities.length === 0) {
       return generateResponse(res, null, 404, "Table is empty", []);
     }
-    return generateResponse(res, null, 200, "Entities retrieved successfully", entities);
+    return generateResponse(
+      res,
+      null,
+      200,
+      "Entities retrieved successfully",
+      entities
+    );
   } catch (err) {
     return generateResponse(res, err, 500, "Something went wrong");
   }
@@ -43,7 +49,7 @@ const createEntity = async (req, res) => {
     return generateResponse(
       res,
       null,
-      200,
+      201,
       "Entity created successfully",
       entity
     );

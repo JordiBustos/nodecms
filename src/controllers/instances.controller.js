@@ -30,7 +30,7 @@ const createInstance = async (req, res) => {
     return generateResponse(
       res,
       null,
-      200,
+      201,
       "New instance created succesfully",
       newRow
     );
