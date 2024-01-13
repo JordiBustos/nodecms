@@ -29,11 +29,7 @@ function App() {
   return (
     <div>
       <Routes>
-        {data && (
-          data.value.map((item) => (
-            <Route key={item.name} path={item.name} element={<InstanceList instanceName={item.name} />} />
-          ))
-        )}
+        <Route path="/:entityName" element={<InstanceList />} />
         <Route path="/" element={<EntitiesList data={data} onAddEntity={() => setRefreshData(true)} />} />
         <Route path="/:entityName/:name" element={<Instance />} />
         <Route path="*" element={<h1>Not Found</h1>} />

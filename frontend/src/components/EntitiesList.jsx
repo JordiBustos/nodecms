@@ -13,7 +13,7 @@ const EntitiesList = ({ data, onAddEntity }) => {
                 {data && (
                     data.value.map((item) => (
                         <li key={item.name}>
-                            <Link to={item.name}>{item.name}</Link>
+                            <Link to={item.name} state={{ name: item.name }} >{item.name}</Link>
                         </li>
                     ))
                 )}
