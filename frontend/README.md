@@ -1,6 +1,6 @@
 # Frontend NodeCMS
 
-Al momento el frontend para visualizar y realizar operaciones CRUD cuenta con vistas simples, en forma de listas, con un formulario que permite al usuario modificar las entidades o instancias.
+Al momento el frontend permite visualizar y realizar operaciones CRUD. Cuenta con vistas simples, en forma de listas y con un formularios o botones que le permiten al usuario modificar las entidades o instancias, interactuando con la base de datos.
 
 ## TODO
 
