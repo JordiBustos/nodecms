@@ -1,6 +1,6 @@
 const d = {
-    "TEXT": "text",
-    "INT": "number"
-}
+  TEXT: "text",
+  INT: "number",
+};
 
 export default d;
