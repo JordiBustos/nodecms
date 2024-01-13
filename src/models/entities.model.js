@@ -18,8 +18,6 @@ fs.readdirSync(configDir).forEach(async (file) => {
   if (file.endsWith(".json")) {
     const modelPath = path.join(configDir, file);
     const modelDefinition = require(modelPath);
-    console.log(modelDefinition);
-
     const model = db.define(modelDefinition.name, modelDefinition.attributes, {
       freezeTableName: true,
     });
