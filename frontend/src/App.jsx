@@ -5,6 +5,7 @@ import EntitiesList from "./components/EntitiesList";
 import InstanceList from "./components/InstanceList";
 import { Route, Routes } from "react-router-dom";
 import Instance from "./components/Instance";
+import backendUrl from "./constants/backend";
 
 function App() {
   const [refreshData, setRefreshData] = useState(false);
@@ -15,7 +16,7 @@ function App() {
     }
   }, [refreshData]);
 
-  const apiUrl = "http://127.0.0.1:3000/api/entities";
+  const apiUrl = `${backendUrl}/entities`;
   const { data, loading, error } = useApiFetch(apiUrl, [refreshData]);
 
   if (loading) {
