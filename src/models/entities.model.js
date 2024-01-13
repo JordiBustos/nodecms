@@ -8,8 +8,6 @@ const Entities = db.define("Entities", {
   description: { type: DataTypes.TEXT },
   fields_names: { type: DataTypes.ARRAY(DataTypes.STRING) },
   fields_types: { type: DataTypes.ARRAY(DataTypes.STRING) },
-  created_at: { type: DataTypes.DATE },
-  updated_at: { type: DataTypes.DATE },
 });
 
 const configDir = path.join(__dirname, "../config");
