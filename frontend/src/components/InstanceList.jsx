@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import useApiFetch from "../hooks/useApiFetch";
 import InstanceForm from "./InstanceForm";
+import { Link } from "react-router-dom";
 
 const InstanceList = ({ instanceName }) => {
     const [showForm, setShowForm] = useState(false);
@@ -15,7 +16,6 @@ const InstanceList = ({ instanceName }) => {
     }, [refreshData]);
 
     if (loading) return <p>Loading...</p>;
-
     return (
         <div>
             <h1>{instanceName} List</h1>
@@ -24,7 +24,13 @@ const InstanceList = ({ instanceName }) => {
                     <p>{error || "Something went wrong"}</p>
                 ) : (
                     <ul>
-                        {data && data.map((item) => <li key={item.name}>{item.name}</li>)}
+                        {data && data.map((item) =>
+                            <li key={item.name}>
+                                <Link to={item.name} state={{ instance: item }} >
+                                    {item.name}
+                                </Link>
+                            </li>
+                        )}
                     </ul>
                 )
             }

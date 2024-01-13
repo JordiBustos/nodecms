@@ -4,6 +4,7 @@ import useApiFetch from "./hooks/useApiFetch";
 import EntitiesList from "./components/EntitiesList";
 import InstanceList from "./components/InstanceList";
 import { Route, Routes } from "react-router-dom";
+import Instance from "./components/Instance";
 
 function App() {
   const [refreshData, setRefreshData] = useState(false);
@@ -34,6 +35,8 @@ function App() {
           ))
         )}
         <Route path="/" element={<EntitiesList data={data} onAddEntity={() => setRefreshData(true)} />} />
+        <Route path="/:entityName/:name" element={<Instance />} />
+        <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </div>
   );
