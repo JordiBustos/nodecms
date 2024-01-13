@@ -37,6 +37,12 @@ DATABASE_PASSWORD
 - cd frontend
 - npm run dev
 
+## TODO
+
+- frontend para interactuar a través de formularios
+- taxonomías como drupal
+- update entities modifications in src/config
+
 ## Endpoint
 
 - **Método:** GET
@@ -44,7 +50,7 @@ DATABASE_PASSWORD
 
 Retorna todas las entidades creadas en la base de datos.
 
-----
+---
 
 - **Método:** POST
 - **URL:** `api/entities`
@@ -53,72 +59,65 @@ Crea una nueva entidad en la base de datos.
 
 #### Argumentos
 
-| Nombre       | Tipo    | Descripción                                         |
-| ------------ | ------- | --------------------------------------------------- |
-| name         | string  | Nombre de la tabla a crear                          |
-| fields_types | arr[str]| Array con los tipos de datos de los fields          |
-| fields_names | arr[str]| Array con los nombres de los fields                 |
-| desc         | str     | Descripcion opcional
+| Nombre       | Tipo     | Descripción                                |
+| ------------ | -------- | ------------------------------------------ |
+| name         | string   | Nombre de la tabla a crear                 |
+| fields_types | arr[str] | Array con los tipos de datos de los fields |
+| fields_names | arr[str] | Array con los nombres de los fields        |
+| desc         | str      | Descripcion opcional                       |
 
-----
+---
 
 - **Método:** GET
 - **URL:** `api/entities/{name}`
 
 Retorna la entidad llamada name y un diccionario con la key "msg" y "value" con la informacion de la misma.
 
-----
+---
 
 - **Método:** DELETE
 - **URL:** `api/entities/{name}`
 
 Elimina la entidad llamada name de la base de datos.
 
-----
+---
 
 - **Método:** PUT
 - **URL:** `api/entities/{name}`
 
 Actualiza la entidad name con los valores pasados en el body.
 
-----
+---
 
-- **Método:** GET 
+- **Método:** GET
 - **URL:** `api/instances/{tableName}`
-
 
 Retorna todas los instancias de la entidad tableName.
 
-----
+---
 
 - **Método:** POST
 - **URL:** `api/instances/{tableName}`
 
 Agrega un contenido a la entidad, se deben enviar los campos especificados a la hora de crear la entidad.
 
-----
+---
 
 - **Método:** GET
 - **URL:** `api/instances/{tableName}/{name}`
 
-
 Retorna la instancia name dentro de la tabla de la entidad tableName correspondiente.
 
-----
+---
 
 - **Método:** PUT
 - **URL:** `api/instances/{tableName}/{name}`
 
 Actualiza la instancia name de la tabla de la entidad tableName con los datos del body.
 
-----
+---
 
 - **Método:** DELETE
 - **URL:** `api/instances/{tableName}/{name}`
 
 Elimina la instancia name de la tabla de la entidad tableName.
-
-## TODO
-- frontend para interactuar a través de formularios
-- taxonomías como drupal
-- delete and update modifications in src/config
