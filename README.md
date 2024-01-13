@@ -39,6 +39,7 @@ DATABASE_PASSWORD
 
 ## TODO
 
+- Autenticación y autorización de usuarios.
 - frontend para interactuar a través de formularios
 - taxonomías como drupal
 - update entities modifications in src/config
