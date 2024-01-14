@@ -6,3 +6,4 @@ Al momento el frontend permite visualizar y realizar operaciones CRUD. Cuenta co
 
 - Delete modal confirmation and fix bug when there is just one instance and it is deleted.
 - Edit instance form
+- See why instance component is bug
