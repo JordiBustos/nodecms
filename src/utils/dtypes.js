@@ -1,12 +1,16 @@
 const { DataTypes } = require("sequelize");
 
 const generateAttributtes = (fieldsNames, fieldsTypes) => {
-  // TODO ADD ALL TYPES
   const strToDtype = {
     VARCHAR: DataTypes.STRING.types.postgres,
     TEXT: DataTypes.TEXT.types.postgres,
     DATE: DataTypes.DATE.types.postgres,
     INT: DataTypes.INTEGER.types.postgres,
+    FLOAT: DataTypes.FLOAT.types.postgres,
+    BOOLEAN: DataTypes.BOOLEAN.types.postgres,
+    CHAR: DataTypes.CHAR.types.postgres,
+    NOW: DataTypes.NOW.types.postgres,
+    UUID: DataTypes.UUID.types.postgres,
   };
 
   if (fieldsNames.some((name) => typeof name !== "string")) return null;
