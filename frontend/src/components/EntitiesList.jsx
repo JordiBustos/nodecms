@@ -11,7 +11,6 @@ const EntitiesList = ({ data, onChangeData }) => {
 	const [apiResponseStatus, setApiResponseStatus] = useState(null);
 
 	const onDelete = async (entityName) => {
-		console.log(entityName)
 		try {
 			const response = await fetch(`${backendUrl}/entities/${entityName}`, {
 				method: "DELETE",
@@ -26,7 +25,6 @@ const EntitiesList = ({ data, onChangeData }) => {
 		}
 	};
 
-	console.log(apiResponseStatus)
 	return (
 		<div>
 			<SearchBar setInputText={setInputText} />

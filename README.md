@@ -28,8 +28,11 @@ DATABASE_PASSWORD
 
 - mkdir src/config
 - npm install
+
 - cd frontend
 - npm install
+- cd ..
+- create virtual environment and install postgres
 
 ## Ejecutar
 
