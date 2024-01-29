@@ -22,17 +22,17 @@ instancesRouter.post("/:tableName", instancePostValidation(), createInstance);
 instancesRouter.get(
   "/:tableName/:name",
   getInstanceByNameValidation(),
-  getInstanceByName
+  getInstanceByName,
 );
 instancesRouter.put(
   "/:tableName/:name",
   validateParamNotEmpty(),
-  updateInstanceByName
+  updateInstanceByName,
 );
 instancesRouter.delete(
   "/:tableName/:name",
   validateParamNotEmpty(),
-  deleteInstanceByName
+  deleteInstanceByName,
 );
 
 module.exports = instancesRouter;

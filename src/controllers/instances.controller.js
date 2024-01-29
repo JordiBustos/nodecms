@@ -21,7 +21,7 @@ const createInstance = async (req, res) => {
       res,
       "Invalid endpoint",
       400,
-      "Entities cannot be created through this endpoint"
+      "Entities cannot be created through this endpoint",
     );
   try {
     const dynamicModel = db.model(tableName);
@@ -32,7 +32,7 @@ const createInstance = async (req, res) => {
       null,
       201,
       "New instance created succesfully",
-      newRow
+      newRow,
     );
   } catch (err) {
     return generateResponse(res, err, 500, "Something went wrong");
@@ -53,7 +53,7 @@ const getInstanceByName = async (req, res) => {
         res,
         "Entity does not exist in entities table",
         404,
-        "Entity not found"
+        "Entity not found",
       );
     }
     res.status(200).send(row);
@@ -79,7 +79,7 @@ const updateInstanceByName = async (req, res) => {
         where: {
           name: instanceName,
         },
-      }
+      },
     );
 
     if (!updatedInstance)
@@ -87,7 +87,7 @@ const updateInstanceByName = async (req, res) => {
         res,
         "The instance was not found in the database",
         404,
-        "Instance not found"
+        "Instance not found",
       );
     res.status(200).send({
       msg: "Instance updated successfuly",
@@ -116,7 +116,7 @@ const deleteInstanceByName = async (req, res) => {
         res,
         "The instance was not found in the database",
         404,
-        "Instance not found"
+        "Instance not found",
       );
 
     return generateResponse(
@@ -124,7 +124,7 @@ const deleteInstanceByName = async (req, res) => {
       null,
       200,
       "Instance deleted successfuly",
-      deletedInstance
+      deletedInstance,
     );
   } catch (err) {
     return generateResponse(res, err, 500, "Something went wrong");
