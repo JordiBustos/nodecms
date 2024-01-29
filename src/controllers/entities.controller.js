@@ -17,7 +17,7 @@ const getEntities = async (req, res) => {
       null,
       200,
       "Entities retrieved successfully",
-      entities
+      entities,
     );
   } catch (err) {
     return generateResponse(res, err, 500, "Something went wrong");
@@ -35,7 +35,7 @@ const createEntity = async (req, res) => {
         res,
         "Invalid datatypes provided in fields_names and fields_types",
         400,
-        "fields_names and fields_type should be an array of strings"
+        "fields_names and fields_type should be an array of strings",
       );
     }
 
@@ -53,7 +53,7 @@ const createEntity = async (req, res) => {
       null,
       201,
       "Entity created successfully",
-      entity
+      entity,
     );
   } catch (err) {
     return generateResponse(res, err, 500, "Something went wrong");
@@ -73,14 +73,14 @@ const getEntityByName = async (req, res) => {
         res,
         "Entity does not exist in entities table",
         404,
-        "Entity not found"
+        "Entity not found",
       );
     return generateResponse(
       res,
       null,
       200,
       "Response generated successfuly",
-      entity
+      entity,
     );
   } catch (err) {
     return generateResponse(res, err, 500, "Something went wrong");
@@ -106,7 +106,7 @@ const updateEntityByName = async (req, res) => {
         res,
         "No matching entity found for the given name",
         404,
-        "Entity not found"
+        "Entity not found",
       );
     }
     return generateResponse(
@@ -114,7 +114,7 @@ const updateEntityByName = async (req, res) => {
       null,
       200,
       "Entity updated successfuly",
-      updatedEntity
+      updatedEntity,
     );
   } catch (err) {
     return generateResponse(res, err, 500, "Something went wrong");
@@ -138,7 +138,7 @@ const deleteEntityByName = async (req, res) => {
       const configFilePath = path.join(
         __dirname,
         "../config",
-        `${tableName}.json`
+        `${tableName}.json`,
       );
       fs.unlinkSync(configFilePath);
 
@@ -148,7 +148,7 @@ const deleteEntityByName = async (req, res) => {
       res,
       "The entity was not found in the database",
       404,
-      "The entity does not exist"
+      "The entity does not exist",
     );
   } catch (error) {
     return generateResponse(res, err, 500, "Something went wrong");
